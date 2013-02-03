@@ -16,7 +16,10 @@ class MoviesController < ApplicationController
       ordering = {:order => :release_date}
       @date_header = 'hilite'
     end
-    @movies = Movie.all(ordering)
+    @all_ratings = Movie.all_ratings
+    @selected_ratings = params[:ratings] || Hash[@all_ratings.map { |rating| [rating, '1']}]
+
+    @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
   end
 
   def new
