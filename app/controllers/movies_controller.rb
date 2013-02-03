@@ -11,8 +11,10 @@ class MoviesController < ApplicationController
     case sort
     when 'title'
       ordering = {:order => :title}
+      @title_header = 'hilite'
     when 'date'
       ordering = {:order => :release_date}
+      @date_header = 'hilite'
     end
     @movies = Movie.all(ordering)
   end
