@@ -19,8 +19,11 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @selected_ratings = params[:ratings] || session[:ratings] || Hash[@all_ratings.map { |rating| [rating, '1']}]
 
-    session[:sort] = sort
-    session[:ratings] = @selected_ratings
+    if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
+      session[:sort] = sort
+      session[:ratings] = @selected_ratings
+      redirect_to :sort => sort, :ratings => @selected_ratings
+    end
 
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
   end
